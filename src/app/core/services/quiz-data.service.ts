@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { QuizCategory, QuizQuestion } from '../models/quiz.model';
 import { QuizError, QuizErrorHandler } from '../../utils/error-handler';
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
-// quiz-data.service.ts
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class QuizDataService {
   private quizData: QuizCategory[] = [];
   private readonly REQUIRED_FIELDS = ['title', 'icon', 'questions'] as const;
 
-  async loadQuizData(): Promise<QuizCategory[]> {
+  constructor(private readonly http: HttpClient) {}
+
+  public async loadQuizData(): Promise<QuizCategory[]> {
     try {
-      const data = await this.fetchData();
+      const data = await lastValueFrom(this.http.get<any>('data.json'));
       this.validateData(data);
       this.quizData = data.quizzes;
       return this.quizData;
@@ -20,14 +25,6 @@ export class QuizDataService {
       QuizErrorHandler.handleError(error);
       throw error;
     }
-  }
-
-  private async fetchData(): Promise<any> {
-    const response = await fetch('data.json');
-    if (!response.ok) {
-      throw new QuizError(`Failed to fetch quiz data. Status: ${response.status}`, 'DATA_LOAD');
-    }
-    return response.json();
   }
 
   private validateData(data: any): void {
@@ -41,6 +38,7 @@ export class QuizDataService {
     });
   }
 
+// Validate the fields
   private validateFields(category: QuizCategory, index: number): void {
     this.REQUIRED_FIELDS.forEach(field => {
       if (!category[field]) {
@@ -49,6 +47,7 @@ export class QuizDataService {
     });
   }
 
+  //Validate the questions
   private validateQuestions(questions: QuizQuestion[], categoryTitle: string): void {
     questions.forEach((question, index) => {
       if (!this.isValidQuestion(question)) {
@@ -60,6 +59,7 @@ export class QuizDataService {
     });
   }
 
+  //Check if the question is valid
   private isValidQuestion(question: QuizQuestion): boolean {
     return Boolean(
       question.question?.trim() &&
@@ -70,6 +70,7 @@ export class QuizDataService {
     );
   }
 
+  //Get the category by name
   getCategoryByName(title: string): QuizCategory | undefined {
     return this.quizData.find(category => category.title === title);
   }

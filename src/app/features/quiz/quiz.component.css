@@ -10,6 +10,7 @@
 @media (max-width: 768px) {
   .quiz-container {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 
@@ -27,6 +28,11 @@
   margin-bottom: var(--spacing-xl);
   font-size: var(--fs-heading-m);
 }
+@media screen and (max-width: 768px) {
+  .question-text {
+    font-size: var(--fs-heading-s);
+  }
+}
 
 .progress-bar {
   margin-bottom: var(--spacing-xl);
@@ -35,7 +41,7 @@
   border-radius: 40px;
   background-color: var(--color-white);
   overflow: hidden;
-  padding: 2px
+  padding: 2px;
 }
 
 .progress-fill {
@@ -45,15 +51,21 @@
   transition: width var(--transition-timing) ease;
 }
 
-:host-context(.dark-theme) .progress-bar{
+:host-context(.dark-theme) .progress-bar {
   background-color: var(--color-navy);
 }
 
-.question-text-progress{
+.question-text-progress {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  gap:5rem;
+  gap: 5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .question-text-progress {
+    gap: 0;
+  }
 }
 
 .options-list {
@@ -82,7 +94,6 @@
   background-color: var(--icon-accessibility);
   transition: background-color var(--transition-timing);
 }
-
 
 .option-button.selected {
   border-color: var(--color-purple);

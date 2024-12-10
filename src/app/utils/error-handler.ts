@@ -12,7 +12,6 @@ export class QuizErrorHandler {
   static handleError(error: unknown): void {
     if (error instanceof QuizError) {
       console.error(`[${error.type} Error]`, error.message);
-      // Potential UI error notification logic
     } else if (error instanceof Error) {
       console.error('[Unexpected Error]', error.message);
     } else {

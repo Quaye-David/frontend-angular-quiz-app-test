@@ -14,21 +14,21 @@ export enum ViewState {
   providedIn: 'root'
 })
 export class QuizStateService {
-  private readonly STORAGE_KEY = 'quiz-state';
-  private readonly VIEW_STATE_KEY = 'view_state';
+  private readonly STORAGE_KEY: string = 'quiz-state';
+  private readonly VIEW_STATE_KEY: string = 'view_state';
   private readonly _quizState: QuizState;
 
-  private readonly selectedCategorySubject = new BehaviorSubject<QuizCategory | undefined>(undefined);
-  private readonly viewStateSubject = new BehaviorSubject<ViewState>(ViewState.START_MENU);
+  private readonly selectedCategorySubject: BehaviorSubject<QuizCategory | undefined> = new BehaviorSubject<QuizCategory | undefined>(undefined);
+  private readonly viewStateSubject: BehaviorSubject<ViewState> = new BehaviorSubject<ViewState>(ViewState.START_MENU);
 
-  readonly selectedCategory$ = this.selectedCategorySubject.asObservable();
-  readonly viewState$ = this.viewStateSubject.asObservable();
+  public readonly selectedCategory$ = this.selectedCategorySubject.asObservable();
+  public readonly viewState$ = this.viewStateSubject.asObservable();
 
   constructor() {
     this._quizState = this.initializeState();
   }
 
-  get quizState(): QuizState {
+  public get quizState(): QuizState {
     return { ...this._quizState };
   }
 
@@ -38,11 +38,11 @@ export class QuizStateService {
       const savedView = localStorage.getItem(this.VIEW_STATE_KEY);
 
       if (savedState) {
-        const state = JSON.parse(savedState);
+        const state: QuizState = JSON.parse(savedState);
         if (state.currentCategory) {
           this.selectedCategorySubject.next(state.currentCategory);
         }
-        this.viewStateSubject.next(savedView as ViewState || ViewState.START_MENU);
+        this.viewStateSubject.next((savedView as ViewState) || ViewState.START_MENU);
         return state;
       }
     } catch (error) {
@@ -68,7 +68,7 @@ export class QuizStateService {
     localStorage.setItem(this.VIEW_STATE_KEY, this.viewStateSubject.getValue());
   }
 
-  selectCategory(category: QuizCategory): void {
+  public selectCategory(category: QuizCategory): void {
     try {
       if (!category) throw new QuizError('Invalid category selected', 'STATE');
 
@@ -89,9 +89,9 @@ export class QuizStateService {
     }
   }
 
-  submitAnswer(answer: string): boolean {
+  public submitAnswer(answer: string): boolean {
     const currentQuestion = this._quizState.currentCategory?.questions[this._quizState.currentQuestionIndex];
-    const isCorrect = currentQuestion?.answer === answer;
+    const isCorrect: boolean = currentQuestion?.answer === answer;
 
     this._quizState.selectedAnswers[this._quizState.currentQuestionIndex] = answer;
     if (isCorrect) this._quizState.score++;
@@ -100,7 +100,7 @@ export class QuizStateService {
     return isCorrect;
   }
 
-  nextQuestion(): void {
+  public nextQuestion(): void {
     if (this._quizState.currentQuestionIndex < this._quizState.totalQuestions - 1) {
       this._quizState.currentQuestionIndex++;
     } else {
@@ -110,7 +110,7 @@ export class QuizStateService {
     this.persistState();
   }
 
-  resetQuiz(): void {
+  public resetQuiz(): void {
     Object.assign(this._quizState, this.getDefaultState());
     localStorage.removeItem(this.STORAGE_KEY);
     localStorage.setItem(this.VIEW_STATE_KEY, ViewState.START_MENU);

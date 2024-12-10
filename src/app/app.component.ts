@@ -25,8 +25,8 @@ export class AppComponent {
   viewState$: Observable<ViewState>;
 
   constructor(
-    @Inject(QuizStateService) private readonly quizStateService: QuizStateService,
-    public readonly themeService: ThemeService
+    private readonly quizStateService: QuizStateService,
+    readonly themeService: ThemeService
   ) {
     this.viewState$ = this.quizStateService.viewState$;
   }

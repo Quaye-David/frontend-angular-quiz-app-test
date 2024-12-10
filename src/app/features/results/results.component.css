@@ -100,7 +100,18 @@
   font-size: var(--fs-heading-xl);
   color: var(--color-dark-navy);
   font-weight: bold;
+}
 
+:host-context(.dark-theme) .quiz-title {
+  color: var(--color-light);
+}
+
+:host-context(.dark-theme) .completed-text {
+  color: var(--color-light);
+}
+
+:host-context(.dark-theme) .score-text {
+  color: var(--color-light);
 }
 
 :host-context(.dark-theme) .current-score {
@@ -110,6 +121,10 @@
 .total-score {
   font-size: var(--fs-heading-s);
   color: var(--color-grey-navy);
+}
+
+:host-context(.dark-theme) .total-score {
+  color: var(--color-light);
 }
 
 .retry-button {
