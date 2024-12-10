@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<div class="menu-container">
+      <section class="welcome-section">
+        <h1 class="title">Welcome to the <br><span class="main-title">Frontend Quiz!</span></h1>
+        <p class="subtitle">Select a quiz to start your journey</p>
+      </section>
+
+      <section class="quiz-list-section">
+        @if (!isDataLoaded) {
+          <div class="loading">Loading quizzes...</div>
+        } @else {
+          @if (quizCategories.length === 0) {
+            <p class="no-quizzes">No quizzes available</p>
+          } @else {
+            <div class="quiz-items">
+              @for (quiz of quizCategories; track quiz.title) {
+                <button class="quiz-item" (click)="selectQuiz(quiz)">
+                  <span class="quiz-icon" [style.background-color]="getIconBackground(quiz.title)">
+                    <img [src]="quiz.icon" [alt]="quiz.title + ' icon'">
+                  </span>
+                  <span class="quiz-title">{{ quiz.title }}</span>
+                </button>
+              }
+            </div>
+          }
+        }
+      </section>
+    </div>

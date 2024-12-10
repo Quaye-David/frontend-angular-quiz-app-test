@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<div class="quiz-container">
+  @if (currentQuiz) {
+  <div class="question-section">
+    <p class="question-number">
+      Question {{ currentQuestionIndex + 1 }} of {{ totalQuestions }}
+    </p>
+    <div class="question-text-progress">
+      <h2 class="question-text">
+        {{ currentQuiz.questions[currentQuestionIndex].question }}
+      </h2>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(currentQuestionIndex + 1) / totalQuestions * 100"></div>
+      </div>
+    </div>
+  </div>
+  <div class="options-list">
+    @for (option of currentQuiz.questions[currentQuestionIndex].options; track $index) {
+    <button class="option-button" [class.selected]="selectedAnswer === option"
+      [class.correct]="isAnswerSubmitted && option === currentQuiz.questions[currentQuestionIndex].answer"
+      [class.incorrect]="isAnswerSubmitted && selectedAnswer === option && option !== currentQuiz.questions[currentQuestionIndex].answer"
+      [disabled]="isAnswerSubmitted" (click)="selectAnswer(option)">
+
+      <div class="option-content">
+        <span class="option-letter">{{ ['A', 'B', 'C', 'D'][$index] }}</span>
+        <span class="option-text">{{ option }}</span>
+        @if (isAnswerSubmitted) {
+        @if (option === currentQuiz.questions[currentQuestionIndex].answer) {
+        <img src="assets/correct.svg" class="icon correct-icon" alt="correct">
+        } @else if (selectedAnswer === option) {
+        <img src="assets/wrong.svg" class="icon wrong-icon" alt="wrong">
+        }
+        }
+      </div>
+
+    </button>
+    }
+    <div class="action-button">
+      @if (!isAnswerSubmitted) {
+      <div class="submit-section">
+        <button class="submit-button" (click)="submitAnswer()">
+          Submit Answer
+        </button>
+        @if (errorMessage) {
+        <p class="error-message"><img src="assets/wrong.svg" class="icon wrong-icon" alt="wrong">{{ errorMessage }}</p>
+        }
+      </div>
+      } @else {
+      <button class="next-button" (click)="nextQuestion()">
+        {{ currentQuestionIndex === totalQuestions - 1 ? 'Finish Quiz' : 'Next Question' }}
+      </button>
+      }
+    </div>
+  </div>
+
+  }
+</div>

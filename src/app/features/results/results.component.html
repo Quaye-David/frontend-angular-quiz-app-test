@@ -1,0 +1,27 @@
+<div class="results-container">
+  <div class="completed-text">
+    Quiz completed! <br> <span>You scored...</span>
+  </div>
+  <div class="results-section">
+    <div class="results-card">
+      @if (currentQuiz) {
+      <div class="quiz-info">
+        <div class="icon-wrapper" [style.background-color]="getIconBackground(currentQuiz.title)">
+          <img [src]="currentQuiz.icon" alt="Quiz icon" class="quiz-icon" />
+        </div>
+        <h2 class="quiz-title">{{ currentQuiz.title }}</h2>
+      </div>
+      }
+      
+      <div class="score-section">
+        <div class="score-display">
+          <div class="score-number">
+            <span class="current-score">{{ score }}</span>
+            <span class="total-score">out of {{ totalQuestions }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="retry-button" (click)="retryQuiz()">Play Again</button>
+  </div>
+</div>
