@@ -22,9 +22,13 @@ export class ThemeService {
     this.setDarkTheme(!this.isDarkTheme);
   }
 
-  private setDarkTheme(isDark: boolean): void {
-    this.isDarkTheme = isDark;
-    document.body.classList.toggle('dark-theme', isDark);
-    localStorage.setItem(this.THEME_KEY, isDark ? 'dark' : 'light');
+  public setDarkTheme(isDark: boolean): void {
+    try {
+      this.isDarkTheme = isDark;
+      document.body.classList.toggle('dark-theme', isDark);
+      localStorage.setItem(this.THEME_KEY, isDark ? 'dark' : 'light');
+    } catch (error) {
+      console.error('Failed to save theme:', error);
+    }
   }
 }
