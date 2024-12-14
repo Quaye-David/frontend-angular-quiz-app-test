@@ -10,7 +10,7 @@ import { lastValueFrom } from 'rxjs';
 
 
 export class QuizDataService {
-  private quizData: QuizCategory[] = [];
+  public quizData: QuizCategory[] = [];
   private readonly REQUIRED_FIELDS = ['title', 'icon', 'questions'] as const;
 
   constructor(private readonly http: HttpClient) {}
