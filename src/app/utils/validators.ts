@@ -1,14 +1,11 @@
-// src/app/core/utils/validators.ts
-
 import { QuizCategory, QuizQuestion } from '../core/models/quiz.model';
 
 export class QuizValidators {
-
   static validateQuizData(data: any): data is { quizzes: QuizCategory[] } {
     if (!data || !Array.isArray(data.quizzes)) {
       return false;
     }
-    return data.quizzes.every(this.validateCategory);
+    return data.quizzes.every(QuizValidators.validateCategory);
   }
 
   static validateCategory(category: any): category is QuizCategory {
@@ -19,7 +16,7 @@ export class QuizValidators {
     ) {
       return false;
     }
-    return category.questions.every(this.validateQuestion);
+    return category.questions.every(QuizValidators.validateQuestion);
   }
 
   static validateQuestion(question: any): question is QuizQuestion {

@@ -1,12 +1,9 @@
-
-<app-quiz-header
-[isDarkTheme]="themeService.isDarkTheme"
-(themeToggled)="themeService.toggleTheme()">
+<app-quiz-header [isDarkTheme]="themeService.isDarkTheme" (themeToggled)="themeService.toggleTheme()">
 </app-quiz-header>
 <main class="app-container">
-@switch (viewState$ | async) {
+  @switch (viewState$ | async) {
   @case ('START_MENU') { <app-start-menu /> }
   @case ('QUIZ') { <app-quiz /> }
   @case ('RESULT') { <app-results /> }
-}
+  }
 </main>
